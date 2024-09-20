@@ -1,0 +1,16 @@
+.header {
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    padding: 10px;
+  }
+  
+ img {
+    width: 90px;
+    height: auto; 
+  }
+  
+  h1 {
+    font-size: 35px; 
+    margin: 0; 
+}
