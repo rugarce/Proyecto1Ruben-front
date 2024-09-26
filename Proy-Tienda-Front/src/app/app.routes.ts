@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { InicioComponent } from './components/inicio/inicio.component';
 import { ProductoComponent } from './components/producto/producto.component';
+import { AnadirProductoComponent } from './components/anadirProducto/anadirProducto.component';
 
 
 export const routes: Routes = [
@@ -10,8 +11,14 @@ export const routes: Routes = [
         title: 'Home page',
     },
     {
-        path: 'producto/:id',
+        path: 'producto',
         component: ProductoComponent,
-        title: 'Home details',
+        title: 'Home products',
     },
+    {
+        path: 'create',
+        component: AnadirProductoComponent,
+        title: 'Add product'
+    }
+
 ];

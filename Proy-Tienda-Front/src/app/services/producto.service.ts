@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Producto } from '../models/producto';
 import { Observable } from 'rxjs';
 import { MessageResponseDto } from '../models/MessageResponseDto.';
@@ -8,7 +8,7 @@ import { MessageResponseDto } from '../models/MessageResponseDto.';
   providedIn: 'root'
 })
 export class ProductoService {
-  private url = 'localhost:8080/producto/';
+  private url = 'http://localhost:8080/producto/';
 
   constructor(private http: HttpClient) {
 
@@ -21,6 +21,21 @@ export class ProductoService {
 
    getProducto(id: number): Observable<MessageResponseDto<Producto>>{
     console.log("Llamanda a get producto")
-    return this.http.get<MessageResponseDto<Producto>>('${id}');
+    return this.http.get<MessageResponseDto<Producto>>(`${this.url}all${id}`);
    }
+   
+   getPaginado(numPagina: number, tamPagina: number): Observable<MessageResponseDto<Producto[]>>{
+    console.log("Llamanda a get paginado")
+    let httpParams: HttpParams = new HttpParams();
+    httpParams = httpParams.set('NumPagina', numPagina);
+    httpParams = httpParams.set('TamanoPagina', tamPagina);
+    return this.http.get<MessageResponseDto<Producto[]>>(`${this.url}pagina`, {params: httpParams});
+   }
+
+   anadirProducto(producto: Producto): Observable<Producto>{
+    console.log("Añadiendo producto")
+    return this.http.post<Producto>(`${this.url}create`,producto);
+   }
+
+   
 }

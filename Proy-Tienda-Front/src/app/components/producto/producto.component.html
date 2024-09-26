@@ -1,1 +1,18 @@
-
+<section class="results">
+    <div class="container text-center">
+        <div id="primera-fila" class="row" >
+            <div class="col-3" *ngFor="let producto of productosPagina">
+                <div class="card" style="width: 18rem;">
+                    <!-- <img src="..." class="card-img-top" alt="..."> -->
+                    <div class="card-body">
+                      <h4 class="card-name">{{producto.nombre}}</h4>
+                      <h6 class="card-marca">{{producto.marca.nombre}}</h6>
+                      <h5 class="card-precio">{{producto.precio}}€</h5>
+                      <a href="#" class="btn btn-primary">Mas sobre {{producto.nombre}}</a>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+</section>
+<app-paginacion [lista]="productos" (page)="changePage($event)"></app-paginacion>

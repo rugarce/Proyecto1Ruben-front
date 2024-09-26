@@ -3,5 +3,13 @@
         "activityBar.background": "#4D1C32",
         "titleBar.activeBackground": "#6C2845",
         "titleBar.activeForeground": "#FEFCFD"
+    },
+    "angular-schematics.schematicsDefaultOptions": {
+        "angular-*": {
+            "externalTemplate": true
+        },
+        "angular-component": {
+            "skipChangeDetectionOnPush": true
+        }
     }
 }

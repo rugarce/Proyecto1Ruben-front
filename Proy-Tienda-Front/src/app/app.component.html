@@ -1,3 +1,4 @@
+
 <main>
   <a [routerLink]="['/']">
     <header class="brand">
@@ -5,7 +6,10 @@
       <h1 class="brand-name">Tienda Eside</h1>
     </header>
   </a>
+  <nav id="menu"> <app-menu></app-menu></nav>
   <section class="content">
     <router-outlet></router-outlet>
   </section>
 </main>
+
+<footer> <app-footer></app-footer></footer>
