@@ -3,7 +3,7 @@ import { Proveedor } from "./proveedor";
 import { Tienda } from "./tienda";
 
 export interface Producto {
-    id: number;
+    id : number
     nombre: string;
     marca: Marca ;
     proveedor: Proveedor;

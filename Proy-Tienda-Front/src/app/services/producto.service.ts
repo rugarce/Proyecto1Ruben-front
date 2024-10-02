@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Producto } from '../models/producto';
 import { Observable } from 'rxjs';
 import { MessageResponseDto } from '../models/MessageResponseDto.';
+import { ProductoCrear } from '../models/productoCrear';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class ProductoService {
 
    getProducto(id: number): Observable<MessageResponseDto<Producto>>{
     console.log("Llamanda a get producto")
-    return this.http.get<MessageResponseDto<Producto>>(`${this.url}all${id}`);
+    return this.http.get<MessageResponseDto<Producto>>(`${this.url}${id}`);
    }
    
    getPaginado(numPagina: number, tamPagina: number): Observable<MessageResponseDto<Producto[]>>{
@@ -32,10 +33,19 @@ export class ProductoService {
     return this.http.get<MessageResponseDto<Producto[]>>(`${this.url}pagina`, {params: httpParams});
    }
 
-   anadirProducto(producto: Producto): Observable<Producto>{
-    console.log("Añadiendo producto")
-    return this.http.post<Producto>(`${this.url}create`,producto);
+   anadirProducto(producto: ProductoCrear): Observable<ProductoCrear>{
+    console.log("Añadiendo producto", producto);
+    return this.http.post<ProductoCrear>(`${this.url}create`,producto);
    }
 
-   
+   actualizarProducto(id: number, producto: ProductoCrear): Observable<ProductoCrear> {
+    console.log("Actualizando producto", producto);
+    return this.http.put<ProductoCrear>(`${this.url}update/${id}`, producto);
+  }
+
+  eliminarProducto(id: number): Observable<MessageResponseDto<string>>{
+    console.log("Llamanda a eliminar producto")
+    return this.http.delete<MessageResponseDto<string>>(`${this.url}delete/${id}`);
+   }
+
 }

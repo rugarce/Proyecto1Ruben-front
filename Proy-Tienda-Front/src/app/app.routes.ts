@@ -19,6 +19,16 @@ export const routes: Routes = [
         path: 'create',
         component: AnadirProductoComponent,
         title: 'Add product'
+    },
+    {
+        path: 'update/:id',
+        component: AnadirProductoComponent,
+        title: 'Edit product'
+    },
+    {
+        path: ':id',
+        component: AnadirProductoComponent,
+        title: 'Get product'
     }
 
 ];
