@@ -4,6 +4,7 @@ import { Producto } from '../models/producto';
 import { Observable } from 'rxjs';
 import { MessageResponseDto } from '../models/MessageResponseDto.';
 import { ProductoCrear } from '../models/productoCrear';
+import { Paginado } from '../models/paginado';
 
 @Injectable({
   providedIn: 'root'
@@ -25,12 +26,12 @@ export class ProductoService {
     return this.http.get<MessageResponseDto<Producto>>(`${this.url}${id}`);
    }
    
-   getPaginado(numPagina: number, tamPagina: number): Observable<MessageResponseDto<Producto[]>>{
+   getPaginado(numPagina: number, tamPagina: number): Observable<MessageResponseDto<Paginado<Producto>>>{
     console.log("Llamanda a get paginado")
     let httpParams: HttpParams = new HttpParams();
     httpParams = httpParams.set('NumPagina', numPagina);
     httpParams = httpParams.set('TamanoPagina', tamPagina);
-    return this.http.get<MessageResponseDto<Producto[]>>(`${this.url}pagina`, {params: httpParams});
+    return this.http.get<MessageResponseDto<Paginado<Producto>>>(`${this.url}pagina`, {params: httpParams});
    }
 
    anadirProducto(producto: ProductoCrear): Observable<ProductoCrear>{

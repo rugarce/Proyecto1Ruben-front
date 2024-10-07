@@ -1,13 +1,14 @@
 <section class="results">
     <div class="container text-center">
         <div id="primera-fila" class="row">
-            <div class="col-3" *ngFor="let producto of productosPagina">
+            <div class="col-3" *ngFor="let producto of paginacion?.contenido">
                 <div class="card" style="width: 18rem;">
                     <!-- <img src="..." class="card-img-top" alt="..."> -->
                     <div class="card-body">
                         <h4 class="card-name">{{producto.nombre}}</h4>
                         <section class="botonesU/D">
-                            <button type="button" class="btn btn-primary" (click)="deleteProducto(producto.id)">
+                            <button type="button" class="btn btn-primary" data-bs-target="#exampleModal"
+                                data-bs-toggle="modal" (click)="this.idProdEliminar= producto.id">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-trash3-fill" viewBox="0 0 16 16">
                                     <path
@@ -31,4 +32,41 @@
         </div>
     </div>
 </section>
-<app-paginacion [lista]="productos" (page)="changePage($event)"></app-paginacion>
+<app-paginacion [paginacion]="paginacion" (page)="changePage($event)"></app-paginacion>
+
+<!--Modal-->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">CUIDADO</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger" role="alert">
+                    ¿Estas seguro de eliminar el producto?
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" data-bs-target="#ModalConfirmDelete" data-bs-toggle="modal"
+                    class="btn btn-primary" (click)="deleteProducto(idProdEliminar)">
+                    Eliminar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalConfirmDelete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="alert alert-danger" role="alert">
+                    Producto eliminado corecctamente.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

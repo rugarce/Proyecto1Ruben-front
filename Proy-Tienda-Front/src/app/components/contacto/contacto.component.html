@@ -1,1 +1,33 @@
-<p>contacto works!</p>
+<div class="alert alert-success" role="alert" *ngIf="correoEnviado">
+    Correo enviado correctamente.
+</div>
+<div class="alert alert-danger" role="alert" *ngIf="errorEnvio">
+    Error al enviar el correo.
+</div>
+<div class="alert alert-danger" role="alert" *ngIf="FormularioInvalido">
+    Error al completar el formulario.
+</div>
+<form [formGroup]="contactoForm" (submit)="onSubmit()">
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Correo</label>
+        <input type="email" class="form-control" formControlName="correo" id="exampleInputEmail1"
+            aria-describedby="emailHelp">
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputNombre" class="form-label">Nombre</label>
+        <input type="text" class="form-control" formControlName="nombre" id="exampleInputNombre">
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputAsunto" class="form-label">Asunto</label>
+        <input type="text" class="form-control" formControlName="asunto" id="exampleInputAsunto">
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlTextarea1" class="form-label">Mensaje</label>
+        <textarea class="form-control" formControlName="mensaje" id="exampleFormControlTextarea1" rows="8"></textarea>
+    </div>
+    <div class="input-group">
+        <input type="file" class="form-control" formControlName="adjunto" id="inputGroupFile04"
+            aria-describedby="inputGroupFileAddon04" aria-label="Upload" (change)="onFileSelected($event)">
+    </div>
+    <button type="submit" class="btn btn-primary">Enviar</button>
+</form>

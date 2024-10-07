@@ -2,9 +2,15 @@ import { Routes } from '@angular/router';
 import { InicioComponent } from './components/inicio/inicio.component';
 import { ProductoComponent } from './components/producto/producto.component';
 import { AnadirProductoComponent } from './components/anadirProducto/anadirProducto.component';
+import { ContactoComponent } from './components/contacto/contacto.component';
 
 
 export const routes: Routes = [
+    {
+        path: 'contacto',
+        component: ContactoComponent,
+        title: 'Contact'
+    },
     {
         path: '',
         component: InicioComponent,
@@ -30,5 +36,4 @@ export const routes: Routes = [
         component: AnadirProductoComponent,
         title: 'Get product'
     }
-
 ];
