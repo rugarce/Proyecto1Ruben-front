@@ -1,0 +1,33 @@
+/* Estilos para el footer */
+.footer {
+    background-color: #343a40;
+    color: #fff;               
+    padding: 20px 0;           
+    font-size: 14px;
+}
+
+.footer p {
+    margin: 0;
+    padding: 0;
+}
+
+
+.footer .social-link {
+    color: #fff;              
+    margin-left: 15px;         
+    text-decoration: none;     
+    transition: color 0.3s;   
+}
+
+.footer .social-link:hover {
+    color: #007bff;           
+}
+
+
+.text-sm-start {
+    text-align: left;
+}
+
+.text-md-end {
+    text-align: right;
+}

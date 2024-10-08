@@ -27,7 +27,20 @@
     </div>
     <div class="input-group">
         <input type="file" class="form-control" formControlName="adjunto" id="inputGroupFile04"
-            aria-describedby="inputGroupFileAddon04" aria-label="Upload" (change)="onFileSelected($event)">
+            aria-describedby="inputGroupFileAddon04" aria-label="Upload" (change)="onFileSelected($event)" multiple>
+    </div>
+    <div class="mb-3" *ngIf="selectedFiles.length > 0">
+        <label for="exampleInputEmail1" class="form-label">Archivos seleccionados:</label>
+        <ul class="list-group">
+            <li class="list-group-item" *ngFor="let file of selectedFiles; let i = index">
+                {{ file.name }}
+                <button (click)="removeFile(i)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                      </svg>
+                </button>
+            </li>
+        </ul>
     </div>
     <button type="submit" class="btn btn-primary">Enviar</button>
 </form>

@@ -36,6 +36,11 @@ export class ContactoComponent {
     }
   }
 
+
+  removeFile(index: number): void {
+    this.selectedFiles.splice(index, 1);
+  }
+
   onSubmit() {
     if (this.contactoForm.valid) {
       const formData = this.contactoForm.value;
