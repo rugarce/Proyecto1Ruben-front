@@ -6,5 +6,21 @@
 }
 
 .page-link {
-  cursor: pointer;            
+  color: black;
+  background-color: aliceblue;
+  border-radius: 20%;
+  cursor: pointer;
+  margin: 5px;            
 }
+
+.page-link:hover{
+  color: white;
+  background-color: #2080e7;
+}
+
+.page-link.active{
+  color: #ffffff; 
+  background-color: #2080e7; 
+}
+
+

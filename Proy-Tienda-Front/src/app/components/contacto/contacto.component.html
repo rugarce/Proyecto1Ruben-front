@@ -1,46 +1,46 @@
-<div class="alert alert-success" role="alert" *ngIf="correoEnviado">
-    Correo enviado correctamente.
+<div class="container my-4">
+    <h3 id="contactTitle">Contacto</h3>
+    <div class="alert alert-success" role="alert" *ngIf="correoEnviado">
+        Correo enviado correctamente.
+    </div>
+    <div class="alert alert-danger" role="alert" *ngIf="errorEnvio">
+        Error al enviar el correo.
+    </div>
+    <div class="alert alert-danger" role="alert" *ngIf="FormularioInvalido">
+        Error al completar el formulario.
+    </div>
+
+    <form [formGroup]="contactoForm" (submit)="onSubmit()">
+        <div class="mb-3 col-6">
+            <label for="exampleInputEmail1" class="form-label">Correo</label>
+            <input type="email" class="form-control" formControlName="correo" id="exampleInputEmail1"
+                aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3 col-4">
+            <label for="exampleInputNombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" formControlName="nombre" id="exampleInputNombre">
+        </div>
+        <div class="mb-3 col-6">
+            <label for="exampleInputAsunto" class="form-label">Asunto</label>
+            <input type="text" class="form-control" formControlName="asunto" id="exampleInputAsunto">
+        </div>
+        <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label">Mensaje</label>
+            <textarea class="form-control" formControlName="mensaje" id="exampleFormControlTextarea1" rows="8"></textarea>
+        </div>
+        <div class="input-group mb-3 col-6">
+            <input type="file" class="form-control" formControlName="adjunto" id="inputGroupFile04"
+                aria-describedby="inputGroupFileAddon04" aria-label="Upload" (change)="onFileSelected($event)" multiple>
+        </div>
+        <div class="mb-3 col-9" *ngIf="selectedFiles.length > 0">
+            <label class="form-label">Archivos seleccionados:</label>
+            <ul class="list-group">
+                <li class="list-group-item" *ngFor="let file of selectedFiles; let i = index">
+                    {{ file.name }}
+                    <button type="button" class="btn-close float-end" (click)="removeFile(i)" aria-label="Close"></button>
+                </li>
+            </ul>
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
 </div>
-<div class="alert alert-danger" role="alert" *ngIf="errorEnvio">
-    Error al enviar el correo.
-</div>
-<div class="alert alert-danger" role="alert" *ngIf="FormularioInvalido">
-    Error al completar el formulario.
-</div>
-<form [formGroup]="contactoForm" (submit)="onSubmit()">
-    <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Correo</label>
-        <input type="email" class="form-control" formControlName="correo" id="exampleInputEmail1"
-            aria-describedby="emailHelp">
-    </div>
-    <div class="mb-3">
-        <label for="exampleInputNombre" class="form-label">Nombre</label>
-        <input type="text" class="form-control" formControlName="nombre" id="exampleInputNombre">
-    </div>
-    <div class="mb-3">
-        <label for="exampleInputAsunto" class="form-label">Asunto</label>
-        <input type="text" class="form-control" formControlName="asunto" id="exampleInputAsunto">
-    </div>
-    <div class="mb-3">
-        <label for="exampleFormControlTextarea1" class="form-label">Mensaje</label>
-        <textarea class="form-control" formControlName="mensaje" id="exampleFormControlTextarea1" rows="8"></textarea>
-    </div>
-    <div class="input-group">
-        <input type="file" class="form-control" formControlName="adjunto" id="inputGroupFile04"
-            aria-describedby="inputGroupFileAddon04" aria-label="Upload" (change)="onFileSelected($event)" multiple>
-    </div>
-    <div class="mb-3" *ngIf="selectedFiles.length > 0">
-        <label for="exampleInputEmail1" class="form-label">Archivos seleccionados:</label>
-        <ul class="list-group">
-            <li class="list-group-item" *ngFor="let file of selectedFiles; let i = index">
-                {{ file.name }}
-                <button (click)="removeFile(i)">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
-                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
-                      </svg>
-                </button>
-            </li>
-        </ul>
-    </div>
-    <button type="submit" class="btn btn-primary">Enviar</button>
-</form>

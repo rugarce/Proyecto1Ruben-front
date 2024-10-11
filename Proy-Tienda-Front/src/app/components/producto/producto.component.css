@@ -1,0 +1,25 @@
+.card{
+    border-radius: 10%;
+    min-height: 275px;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    background-color: #eeeeee;
+}
+.botonesUD {
+    position: absolute;
+    top: 10px; 
+    right: 10px; 
+    display: flex; 
+    opacity: 0; 
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform: translateY(-10px); 
+}
+.card:hover .botonesUD {
+    opacity: 1;
+    transform: translateY(0);
+}
+.botonesUD button {
+    margin-left: 5px;
+}

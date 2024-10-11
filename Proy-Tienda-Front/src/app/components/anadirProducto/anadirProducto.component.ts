@@ -28,8 +28,9 @@ export class AnadirProductoComponent implements OnInit {
   proveedores: Proveedor[] = [];
   tiendas: Tienda[] = [];
   productoEditar: Producto | null = null;
-  showSuccessAlert = false; 
-  Esconsulta = false;
+  showSuccessAlert = false;
+  esConsulta = false;
+  esActualizar=false;
 
   productoForm = new FormGroup({
     nombre: new FormControl('', Validators.required),
@@ -52,33 +53,42 @@ export class AnadirProductoComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       const isUpdate = this.route.snapshot.url.some(segment => segment.path == 'update');
-      if (id) {
-        this.productoService.getProducto(parseInt(id)).subscribe({
-          next: response => {
-            console.log("Producto a cargar en el formulario: ",response.message)
-            this.productoEditar = response.message;
-            this.productoForm.patchValue({
-              nombre: this.productoEditar.nombre,
-              marca: this.productoEditar.marca.id.toString(),
-              proveedor: this.productoEditar.proveedor.id.toString(),
-              tienda: this.productoEditar.tienda.id.toString(),
-              precio: this.productoEditar.precio,
-              cantidad: this.productoEditar.cantidad,
-            });
-          },
-          error(err) {
-            console.error('Error al cargar el producto:', err);
-          }
-        })
-        if(!isUpdate){
-          this.productoForm.disable();
-          this.Esconsulta= true;
-        }
-      } else {
-        this.productoEditar=null;
+
+      if (!id) {
+        this.productoEditar = null;
         this.productoForm.reset();
+        return;
       }
+
+      this.cargarProductoAlFormulario(parseInt(id));
+
+      if (!isUpdate) {
+        this.productoForm.disable();
+        this.esConsulta = true;
+        return;
+      }
+      this.esActualizar=true;
     });
+  }
+
+  cargarProductoAlFormulario(id: number) {
+    this.productoService.getProducto(id).subscribe({
+      next: response => {
+        console.log("Producto a cargar en el formulario: ", response.message)
+        this.productoEditar = response.message;
+        this.productoForm.patchValue({
+          nombre: this.productoEditar.nombre,
+          marca: this.productoEditar.marca.id.toString(),
+          proveedor: this.productoEditar.proveedor.id.toString(),
+          tienda: this.productoEditar.tienda.id.toString(),
+          precio: this.productoEditar.precio,
+          cantidad: this.productoEditar.cantidad,
+        });
+      },
+      error(err) {
+        console.error('Error al cargar el producto:', err);
+      }
+    })
   }
 
   getAllProductos() {
@@ -145,43 +155,65 @@ export class AnadirProductoComponent implements OnInit {
     })
   }
 
-  crearProducto() {
-    if (this.productoForm.valid) {
-      const formData = this.productoForm.value;
-
-      const nuevoProducto: ProductoCrear = {
-        nombre: formData.nombre!,
-        id_marca: parseInt(formData.marca!),
-        id_tienda: parseInt(formData.tienda!),
-        id_proveedor: parseInt(formData.proveedor!),
-        cantidad: formData.cantidad!,
-        precio: formData.precio!,
-      };
-      console.log(nuevoProducto);
-
-      if (this.productoEditar) {
-        this.productoService.actualizarProducto(this.productoEditar.id, nuevoProducto).subscribe({
-          next: (response) => {
-            console.log('Producto actualizado:', response);
-            this.showSuccessAlert = true;
-          },
-          error: (err) => {
-            console.error('Error al actualizar producto:', err);
-          }
-        });
-      } else {
-        this.productoService.anadirProducto(nuevoProducto).subscribe({
-          next: (response) => {
-            console.log('Producto creado:', response);
-            this.router.navigate(['update', response]);
-          },
-          error: (err) => {
-            console.error('Error al crear producto:', err);
-          }
-        });
+  updateProducto(nuevoProducto: ProductoCrear) {
+    this.productoService.actualizarProducto(nuevoProducto).subscribe({
+      next: (response) => {
+        console.log('Producto actualizado:', response);
+        this.showSuccessAlert = true;
+      },
+      error: (err) => {
+        console.error('Error al actualizar producto:', err);
       }
-    } else {
+    });
+  }
+
+  addProducto(nuevoProducto: ProductoCrear) {
+    this.productoService.anadirProducto(nuevoProducto).subscribe({
+      next: (response) => {
+        console.log('Producto creado:', response);
+        this.router.navigate(['update', response]);
+      },
+      error: (err) => {
+        console.error('Error al crear producto:', err);
+      }
+    });
+  }
+
+  deleteProducto(id: number): void {
+    this.productoService.eliminarProducto(id).subscribe({
+      next: () => {
+        console.log('Producto eliminado correctamente')
+        this.router.navigate(['']);
+      },
+      error: err => {
+        console.error(err);
+      }
+    });
+  }
+
+  anadirOActualizarProducto() {
+    if (!this.productoForm.valid) {
       console.log("Formulario no valido");
+      return;
+    }
+
+    const formData = this.productoForm.value;
+    const nuevoProducto: ProductoCrear = {
+      nombre: formData.nombre!,
+      id_marca: parseInt(formData.marca!),
+      id_tienda: parseInt(formData.tienda!),
+      id_proveedor: parseInt(formData.proveedor!),
+      cantidad: formData.cantidad!,
+      precio: formData.precio!,
+    };
+
+    console.log(nuevoProducto);
+    
+    if (this.productoEditar) {
+      nuevoProducto.id=this.productoEditar.id;
+      this.updateProducto(nuevoProducto);
+    } else {
+      this.addProducto(nuevoProducto);
     }
   }
 }

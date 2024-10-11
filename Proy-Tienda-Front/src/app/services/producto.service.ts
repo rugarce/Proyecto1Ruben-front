@@ -39,9 +39,9 @@ export class ProductoService {
     return this.http.post<ProductoCrear>(`${this.url}create`,producto);
    }
 
-   actualizarProducto(id: number, producto: ProductoCrear): Observable<ProductoCrear> {
+   actualizarProducto(producto: ProductoCrear): Observable<ProductoCrear> {
     console.log("Actualizando producto", producto);
-    return this.http.put<ProductoCrear>(`${this.url}update/${id}`, producto);
+    return this.http.put<ProductoCrear>(`${this.url}update/${producto.id}`, producto);
   }
 
   eliminarProducto(id: number): Observable<MessageResponseDto<string>>{
