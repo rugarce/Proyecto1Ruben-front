@@ -28,17 +28,21 @@ export class AnadirProductoComponent implements OnInit {
   proveedores: Proveedor[] = [];
   tiendas: Tienda[] = [];
   productoEditar: Producto | null = null;
-  showSuccessAlert = false;
+  alertAcualizar = false;
+  errorAnadir = false;
+  errorAct = false;
+  alertAnadir = false;
+  formularioInvalido = false;
   esConsulta = false;
-  esActualizar=false;
+  esActualizar = false;
 
   productoForm = new FormGroup({
     nombre: new FormControl('', Validators.required),
     marca: new FormControl('', Validators.required),
     proveedor: new FormControl('', Validators.required),
     tienda: new FormControl('', Validators.required),
-    precio: new FormControl(0, [Validators.min(0), Validators.required]),
-    cantidad: new FormControl(0, [Validators.min(0), Validators.required]),
+    precio: new FormControl(0, [Validators.min(0), Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]),
+    cantidad: new FormControl(0, [Validators.min(0), Validators.required,  Validators.pattern(/^\d+$/)]),
   });
 
   constructor(private productoService: ProductoService, private marcaService: MarcaService,
@@ -67,8 +71,15 @@ export class AnadirProductoComponent implements OnInit {
         this.esConsulta = true;
         return;
       }
-      this.esActualizar=true;
+      this.esActualizar = true;
     });
+  }
+
+  scrollToTitle(): void {
+    const title = document.getElementById('Title');
+    if (title) {
+      title.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
 
   cargarProductoAlFormulario(id: number) {
@@ -159,10 +170,17 @@ export class AnadirProductoComponent implements OnInit {
     this.productoService.actualizarProducto(nuevoProducto).subscribe({
       next: (response) => {
         console.log('Producto actualizado:', response);
-        this.showSuccessAlert = true;
+        this.alertAcualizar = true;
+        setTimeout(() => {
+          this.alertAcualizar = false;
+        }, 5000);
       },
       error: (err) => {
         console.error('Error al actualizar producto:', err);
+        this.errorAct = true;
+        setTimeout(() => {
+          this.errorAct = false;
+        }, 5000);
       }
     });
   }
@@ -172,9 +190,17 @@ export class AnadirProductoComponent implements OnInit {
       next: (response) => {
         console.log('Producto creado:', response);
         this.router.navigate(['update', response]);
+        this.alertAnadir = true;
+        setTimeout(() => {
+          this.alertAnadir = false;
+        }, 5000);
       },
       error: (err) => {
         console.error('Error al crear producto:', err);
+        this.errorAnadir = true;
+        setTimeout(() => {
+          this.errorAnadir = false;
+        }, 5000);
       }
     });
   }
@@ -183,7 +209,7 @@ export class AnadirProductoComponent implements OnInit {
     this.productoService.eliminarProducto(id).subscribe({
       next: () => {
         console.log('Producto eliminado correctamente')
-        this.router.navigate(['']);
+        this.router.navigate([''], { queryParams: { alertEliminar: true } });
       },
       error: err => {
         console.error(err);
@@ -193,7 +219,14 @@ export class AnadirProductoComponent implements OnInit {
 
   anadirOActualizarProducto() {
     if (!this.productoForm.valid) {
+      const formElement = document.querySelector('.needs-validation');
+      formElement?.classList.add('was-validated');
       console.log("Formulario no valido");
+      this.formularioInvalido = true;
+      setTimeout(() => {
+        this.formularioInvalido = false;
+      }, 5000);
+      this.scrollToTitle();
       return;
     }
 
@@ -208,12 +241,13 @@ export class AnadirProductoComponent implements OnInit {
     };
 
     console.log(nuevoProducto);
-    
+
     if (this.productoEditar) {
-      nuevoProducto.id=this.productoEditar.id;
+      nuevoProducto.id = this.productoEditar.id;
       this.updateProducto(nuevoProducto);
     } else {
       this.addProducto(nuevoProducto);
     }
+    this.scrollToTitle();
   }
 }

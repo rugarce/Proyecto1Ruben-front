@@ -24,22 +24,22 @@ export class PaginacionComponent {
   }
 
   get totalPages() {
-    return Math.ceil(this.paginacion.numElementosTotales / this.paginacion.tamPagina);
+      return Math.ceil(this.paginacion.numElementosTotales / this.paginacion.tamPagina);
   }
 
 
   nextPage() {
     if ((this.currentPage+1) * this.itemsPerPage < this.paginacion.numElementosTotales) {
       this.currentPage++;
-      this.page.emit(this.currentPage);
     }
+    this.page.emit(this.currentPage);
   }
 
   prevPage() {
     if (this.currentPage > 0) {
       this.currentPage--;
-      this.page.emit(this.currentPage);
     }
+    this.page.emit(this.currentPage);
   }
 
   goToPage(page: number) {
@@ -48,9 +48,4 @@ export class PaginacionComponent {
       this.page.emit(this.currentPage);
     }
   }
-
-
-
-
-
 }

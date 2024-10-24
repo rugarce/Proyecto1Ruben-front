@@ -22,7 +22,7 @@ export class ContactoComponent {
     nombre: new FormControl('', Validators.required),
     asunto: new FormControl('', Validators.required),
     mensaje: new FormControl('', Validators.required),
-    adjunto: new FormControl()
+    adjunto: new FormControl('')
   });
 
   constructor(private contactoService: ContactoService) {
@@ -42,6 +42,7 @@ export class ContactoComponent {
       for (let i = 0; i < input.files.length; i++) {
         this.selectedFiles.push(input.files[i]);
       }
+      input.value= '';
     }
   }
 
@@ -56,6 +57,9 @@ export class ContactoComponent {
     this.selectedFiles=[];
     this.contactoForm.reset();
     this.scrollToTitle();
+    setTimeout(() => {
+      this.correoEnviado = false;
+    }, 5000);
   }
 
   emailError(err : Error): void {
@@ -64,6 +68,9 @@ export class ContactoComponent {
     this.FormularioInvalido = false;
     console.error('Error al enviar el correo:', err);
     this.scrollToTitle();
+    setTimeout(() => {
+      this.errorEnvio = false;
+    }, 5000);
   }
 
   sendEmail(contact: Contacto) {
@@ -95,8 +102,13 @@ export class ContactoComponent {
       this.FormularioInvalido = true;
       this.correoEnviado = false;
       this.errorEnvio = false;
+      const formElement = document.querySelector('.needs-validation');
+      formElement?.classList.add('was-validated');
       console.log('Formulario inválido');
       this.scrollToTitle();
+      setTimeout(() => {
+        this.FormularioInvalido = false;
+      }, 5000);
       return;
     }
 
@@ -109,7 +121,7 @@ export class ContactoComponent {
     };
 
     console.log(this.selectedFiles)
-    if (this.selectedFiles) {
+    if (this.selectedFiles.length!=0) {
       this.sendEmailWithAttach(contact)
     } else {
       this.sendEmail(contact);

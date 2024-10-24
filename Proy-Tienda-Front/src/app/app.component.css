@@ -5,18 +5,26 @@
 .no-underline {
   text-decoration: none;
 }
+
+.content{
+  flex-grow: 1;
+}
 main{
   background-color: aliceblue;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
-img {
+.brand-logo{
   width: 100px;
   height: auto;
   border-radius: 20%;
+}
+.app-footer{
+  display: flex;
 }
 
 h1 {
   font-size: 35px;
 }
-.content{
-  min-height: 100vh;
-}
+

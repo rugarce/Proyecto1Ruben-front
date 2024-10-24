@@ -14,7 +14,7 @@ a {
 }
 .btn-group .dropdown-menu {
     right: auto;
-    min-width: 12rem;
+    min-width: 10rem;
     background-color: aliceblue;
     border-color: rgba(0, 0, 0, 0.15);
     padding: 0.5rem 0;
@@ -33,7 +33,24 @@ a {
     color: #ffffff;
 }
 
-.btn-group .dropdown-menu .dropdown-item:active {
-    background-color: #0056b3;
-    color: #fff;
+.active{
+    background-color: #6c757d;
+    color: #ffffff;
+    border-color: #6c757d;
 }
+
+.btn-group.dropend .dropdown-menu {
+    left: 100%; 
+    top: 0; 
+    display: none;
+}
+
+.btn-group.dropend:hover .dropdown-menu {
+    display: block; 
+}
+.btn-group.dropend{
+    position: relative;
+}
+
+
+

@@ -1,55 +1,154 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg">
     <div class="btn-group">
-        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Filtrar por
+        </button>
+        <ul class="dropdown-menu p-3">
+            <div class="btn-group dropend" role="group">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    Marca
+                </button>
+                <ul class="dropdown-menu ps-3">
+                    <li class="dropdown-item form-check" *ngFor="let marca of marcas">
+                        <input class="form-check-input" type="checkbox" (change)="onMarcaChange($event, marca.nombre)"
+                            [checked]="this.productoFiltrado.marcas!.includes(marca.nombre)">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            {{marca.nombre}}
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <!-- Botón para Tienda -->
+            <div class="btn-group dropend" role="group">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    Tienda
+                </button>
+                <ul class="dropdown-menu ps-3">
+                    <li class="dropdown-item form-check" *ngFor="let tienda of tiendas">
+                        <input class="form-check-input" type="checkbox" (change)="onTiendaChange($event, tienda.nombre)"
+                            [checked]="this.productoFiltrado.tiendas!.includes(tienda.nombre)">
+                        <label class="form-check-label" for="flexCheckTienda">
+                            {{tienda.nombre}}
+                        </label>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Botón para Proveedor -->
+            <div class="btn-group dropend" role="group">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    Proveedor
+                </button>
+                <ul class="dropdown-menu ps-3">
+                    <li class="dropdown-item form-check" *ngFor="let proveedor of proveedores">
+                        <input class="form-check-input" type="checkbox"
+                            (change)="onProveedorChange($event, proveedor.nombre)"
+                            [checked]="this.productoFiltrado.proveedores!.includes(proveedor.nombre)">
+                        <label class="form-check-label" for="flexCheckProveedor">
+                            {{proveedor.nombre}}
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <!-- Botón para PrecioMax -->
+            <div class="btn-group dropend" role="group">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    Precio Max
+                </button>
+                <ul class="dropdown-menu ps-3">
+                    <li class="dropdown-item form-check">
+                        <form (submit)="onPrecioMaxChange()">
+                            <label for="precioMaxInput" class="form-label">Precio Máximo:</label>
+                            <input type="number" class="form-control" id="precioMaxInput" placeholder="Ingrese precio máximo" min="0" step="0.01" required>
+                            <button type="submit" class="btn btn-secondary mt-2">
+                                Filtrar
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+             <!--Botón para Cantidad  -->
+            <div class="btn-group dropend" role="group">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    Cantidad
+                </button>
+                <ul class="dropdown-menu ps-3">
+                    <li class="dropdown-item form-check">
+                        <form (submit)="onCantidadChange()">
+                            <label for="cantidadInput" class="form-label">Cantidad:</label>
+                            <input type="number" class="form-control" id="cantidadInput" 
+                                   placeholder="Ingrese cantidad" required 
+                                   min="1" step="1">
+                            <button type="submit" class="btn btn-secondary mt-2">
+                                Filtrar
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </ul>
+    </div>
+    <div class="btn-group">
+        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             Camisetas
         </button>
         <ul class="dropdown-menu">
-            <li><a href="#" class="dropdown-item">Camisetas de nike</a></li>
-            <li><a href="#" class="dropdown-item">Camisetas de adidas</a></li>
-            <li><a href="#" class="dropdown-item">Camisetas de gucci</a></li>
-            <li><a href="#" class="dropdown-item">Camisetas de Tommy Hilfiger</a></li>
-            <li><a href="#" class="dropdown-item">Camisetas de The North Face</a></li>
+            <li><a class="dropdown-item" (click)="aplicarFiltro('Camiseta', 'Nike')">Camisetas de Nike</a></li>
+            <li><a class="dropdown-item" (click)="aplicarFiltro('Camiseta', 'Adidas')">Camisetas de Adidas</a></li>
+            <li><a class="dropdown-item" (click)="aplicarFiltro('Camiseta', 'Gucci')">Camisetas de Gucci</a></li>
+            <li><a class="dropdown-item" (click)="aplicarFiltro('Camiseta', 'Tommy Hilfiger')">Camisetas de Tommy
+                    Hilfiger</a></li>
+            <li><a class="dropdown-item" (click)="aplicarFiltro('Camiseta', 'The North Face')">Camisetas de The North
+                    Face</a></li>
         </ul>
     </div>
 
     <div class="btn-group">
-        <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
             Pantalones
         </button>
         <ul class="dropdown-menu dropdown-menu-end">
-            <li><a href="#" class="dropdown-item">Pantalones de nike</a></li>
-            <li><a href="#" class="dropdown-item">Pantalones de adidas</a></li>
-            <li><a href="#" class="dropdown-item">Pantalones de Levi's</a></li>
-            <li><a href="#" class="dropdown-item">Pantalones de puma</a></li>
+            <li><a class="dropdown-item" (click)="aplicarFiltro('Pantalon', 'Nike')">Pantalones de nike</a></li>
+            <li><a class="dropdown-item" (click)="aplicarFiltro('Pantalon', 'Adidas')">Pantalones de adidas</a></li>
+            <li><a class="dropdown-item" (click)="aplicarFiltro('Pantalon', 'Levis')">Pantalones de Levi's</a></li>
+            <li><a class="dropdown-item" (click)="aplicarFiltro('Pantalon', 'Puma')">Pantalones de puma</a></li>
         </ul>
     </div>
 
     <div class="btn-group">
-        <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown"
+        <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown"
             data-bs-display="static" aria-expanded="false">
             Sudaderas
         </button>
         <ul class="dropdown-menu dropdown-menu-lg-end">
-            <li><a href="#" class="dropdown-item">Sudaderas de nike</a></li>
-            <li><a href="#" class="dropdown-item">Sudaderas de adidas</a></li>
-            <li><a href="#" class="dropdown-item">Sudaderas de The North Face</a></li>
-            <li><a href="#" class="dropdown-item">Sudaderas de Tommy Hilfiger</a></li>
+            <li><a class="dropdown-item" (click)="aplicarFiltro('Sudadera', 'Nike')">Sudaderas de nike</a></li>
+            <li><a class="dropdown-item" (click)="aplicarFiltro('Sudadera', 'Adidas')">Sudaderas de adidas</a></li>
+            <li><a class="dropdown-item" (click)="aplicarFiltro('Sudadera', 'The North Face')">Sudaderas de The North
+                    Face</a></li>
+            <li><a class="dropdown-item" (click)="aplicarFiltro('Sudadera', 'Tommy Hilfiger')">Sudaderas de Tommy
+                    Hilfiger</a></li>
         </ul>
     </div>
 
     <div class="btn-group">
-        <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown"
+        <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown"
             data-bs-display="static" aria-expanded="false">
             Zapatillas
         </button>
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
-            <li><a href="#" class="dropdown-item">Zapatillas de nike</a></li>
-            <li><a href="#" class="dropdown-item">Zapatillas de adidas</a></li>
-            <li><a href="#" class="dropdown-item">Zapatillas de veja</a></li>
-            <li><a href="#" class="dropdown-item">Zapatillas de fluchos</a></li>
+            <li><a class="dropdown-item" (click)="aplicarFiltro('Zapatillas', 'Nike')">Zapatillas de nike</a></li>
+            <li><a class="dropdown-item" (click)="aplicarFiltro('Zapatillas', 'Adidas')">Zapatillas de adidas</a></li>
+            <li><a class="dropdown-item" (click)="aplicarFiltro('Zapatillas', 'Veja')">Zapatillas de veja</a></li>
+            <li><a class="dropdown-item" (click)="aplicarFiltro('Zapatillas', 'Fluchos')">Zapatillas de fluchos</a></li>
         </ul>
     </div>
-    <a href="aboutUs" class="btn btn-secondary">Sobre nosotros</a>
-    <a href="contacto" class="btn btn-secondary">Contacto</a>
-    <button type="button" class="btn btn-secondary" (click)="navAAnadirProd()">Añadir producto</button>
+    <a href="aboutUs" [class.active]="currentRoute?.includes('/aboutUs')" class="btn btn-secondary btn-sm">Sobre nosotros</a>
+    <a href="contacto" [class.active]="currentRoute?.includes('/contacto')" class="btn btn-secondary btn-sm">Contacto</a>
+    <button type="button" [class.active]="currentRoute?.includes('/create')" class="btn btn-secondary btn-sm"
+        (click)="navAAnadirProd()">Añadir producto</button>
+    <form class="d-flex ms-auto me-4" role="search" (ngSubmit)="aplicarFiltro(busqueda)">
+        <input class="form-control-sm me-2 " type="search" placeholder="Buscar" aria-label="Buscar" [(ngModel)]="busqueda"
+            name="busqueda">
+        <button class="btn btn-secondary btn-sm" type="submit">Buscar</button>
+    </form>
 </nav>

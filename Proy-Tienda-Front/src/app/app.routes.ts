@@ -8,6 +8,11 @@ import { SobrenosotrosComponent } from './components/sobrenosotros/sobrenosotros
 
 export const routes: Routes = [
     {
+        path: 'filtro',
+        component: ProductoComponent,
+        title: 'Filters products',
+    },
+    {
         path: 'contacto',
         component: ContactoComponent,
         title: 'Contact'
